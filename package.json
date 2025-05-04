@@ -1,0 +1,31 @@
+{
+  "name": "mern-cinema-booking-app",
+  "version": "1.0.0",
+  "description": "Version 1.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "tsc": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/multer": "^1.4.12",
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
+    "express": "^4.19.2",
+    "mongoose": "^8.14.1",
+    "multer": "^1.4.5-lts.2",
+    "nodemon": "^3.1.10",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.15.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
