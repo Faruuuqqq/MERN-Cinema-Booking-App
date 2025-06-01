@@ -1,9 +1,9 @@
 import type { Response } from "express";
 import type { CustomRequest } from "../types/Request";
 import { transactionSchema } from "../utils/zodSchema";
-import Wallet from "../models/Wallet";
-import Transaction from "../models/Transaction";
-import TransactionSeat from "../models/TransactionSeat";
+import Wallet from "../models/wallet";
+import Transaction from "../models/transaction";
+import TransactionSeat from "../models/transactionSeat";
 
 export const transactionTicket = async (req: CustomRequest, res: Response) => {
 	try {

@@ -62,62 +62,60 @@ export const getDetailMovie = async (req: Request, res: Response) => {
 };
 
 export const createMovie = async (req: Request, res: Response) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({
-        message: "Thumbnail is required",
-        data: null,
-        status: "failed",
-      });
-    }
+	try {
+		if (!req.file) {
+			return res.status(400).json({
+				message: "Thumbnail is required",
+				data: null,
+				status: "failed",
+			});
+		}
+			const parse = movieSchema.safeParse({
+				title: req.body.title,
+				genre: req.body.genre,
+				theaters: req.body.theaters.split(","),
+				// biome-ignore lint/complexity/noUselessTernary: for data insert
+				available: req.body.available === "1" ? true : false,
+				description: req.body.description,
+				price: Number.parseInt(req.body.price),
+				bonus: req.body?.bonus,
+			});
+		
+			if (!parse.success) {
+				const errorMessages = parse.error.issues.map((err) => err.message);
 
-    const parse = movieSchema.safeParse({
-      title: req.body.title,
-      genre: req.body.genre,
-      theaters: req.body.theaters.split(","),
-      // biome-ignore lint/complexity/noUselessTernary: for data insert
-      available: req.body.available === "1" ? true: false,
-      description: req.body.description,
-      price: Number.parseInt(req.body.price),
-      bonus: req.body?.bonus,
-    });
+				return res.status(400).json({
+					messages: "Invalid request",
+					details: errorMessages,
+					status: "failed",
+				});
+			}
+		
+			const movie = new Movie({
+				title: parse.data.title,
+				genre: parse.data.genre,
+				available: parse.data.available,
+				theaters: parse.data.theaters,
+				thumbnail: req.file?.filename,
+				description: parse.data.description,
+				price: parse.data.price,
+				bonus: parse.data.bonus,
+			});
 
-    if(!parse.success) {
-      const errorMessages = parse.error.issues.map((err) => err.message);
+			await movie.save();
 
-      return res.status(400).json({
-        message: "Invalid Request",
-        details: errorMessages,
-        status: "failed",
-      });
-    }
-
-    const movie = new Movie({
-      title: parse.data.title,
-      genre: parse.data.genre,
-      theaters: parse.data.theaters,
-      thumbnail: req.file?.filename,
-      description: parse.data.description,
-      avalaible: parse.data.available,
-      price: parse.data.price,
-      bonus: parse.data.bonus,
-    });
-
-    await movie.save();
-
-    return res.json({
-      status: "success",
-      data: movie,
-      message: "Success create data",
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: "Failed to create data",
-      data: null,
-      status: "failed",
-    });
-  }
+			return res.json({
+				status: "success",
+				data: movie,
+				message: "Success create data",
+			})
+	} catch (error) {
+		return res.status(500).json({
+			message: "Failed to created data",
+			data: null,
+			status: "failed",
+		});
+	}
 };
 
 
@@ -159,7 +157,7 @@ export const updateMovie = async (req: Request, res: Response) => {
 		if (req.file) {
 			const dirname = path.resolve();
 			const filepath = path.join(
-				dirname,
+				dirname, 
 				"public/uploads/thumbnails",
 				oldMovie.thumbnail ?? "",
 			);
@@ -180,7 +178,7 @@ export const updateMovie = async (req: Request, res: Response) => {
 				$pull: {
 					movies: oldMovie._id,
 				},
-			});
+			}); 
 		}
 
 		await Movie.findByIdAndUpdate(oldMovie._id, {
@@ -188,10 +186,10 @@ export const updateMovie = async (req: Request, res: Response) => {
 			genre: parse.data.genre,
 			available: parse.data.available,
 			theaters: parse.data.theaters,
-			thumbnail: req?.file ? req.file.filename : oldMovie.thumbnail,
+			thumbanil: req?.file ? req.file.filename : oldMovie.thumbnail,
 			description: parse.data.description,
 			price: parse.data.price,
-			bonus: parse.data.bonus,
+			bonus: parse.data.bonus
 		});
 
 		await Genre.findByIdAndUpdate(parse.data.genre, {
@@ -202,7 +200,7 @@ export const updateMovie = async (req: Request, res: Response) => {
 
 		for (const theater of parse.data.theaters) {
 			await Theater.findByIdAndUpdate(theater, {
-				$push: {
+				$push : {
 					movies: id,
 				},
 			});

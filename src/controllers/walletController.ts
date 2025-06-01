@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import Wallet from "../models/Wallet";
+import Wallet from "../models/wallet";
 import type { CustomRequest } from "../types/Request";
-import WalletTransaction from "../models/WalletTransaction";
+import WalletTransaction from "../models/walletTransaction";
 import { topupSchema } from "../utils/zodSchema";
 
 export const getBalance = async (req: CustomRequest, res: Response) => {
