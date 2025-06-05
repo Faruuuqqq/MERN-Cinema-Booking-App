@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const transactionSchema = new mongoose.Schema({
+export const transactionSchema = new mongoose.Schema({
   subtotal: {
     type: Number,
     required: true,
@@ -36,19 +36,7 @@ const transactionSchema = new mongoose.Schema({
   date: {
     type: String,
     required: true,
-  },
-  seats: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "TransactionSeat",
-    },
-  ],
-  },
-  { timestamps: true },
-);
+  }
+}, { timestamps: true });
 
-export default mongoose.model(
-  "Transaction",
-  transactionSchema,
-  "transactions",
-);
+export default mongoose.model("Transaction", transactionSchema, "transactions");

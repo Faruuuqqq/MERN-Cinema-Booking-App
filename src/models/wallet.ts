@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const walletSchema = new mongoose.Schema({
   user: {
@@ -7,9 +7,9 @@ const walletSchema = new mongoose.Schema({
   },
   balance: {
     type: Number,
-    required: true,
     default: 0,
-  },
-});
+    required: true,
+  }
+})
 
-export default mongoose.model("wallet", walletSchema, "wallets");
+export default mongoose.model('Wallet', walletSchema, "wallets");

@@ -29,9 +29,13 @@ const userSchema = new mongoose.Schema(
     virtuals: {
       photoUrl: {
         get() {
-          return `get`
+          return `${getAssetUrl('photo')}${this.photo}`;
         }
       }
+    },
+    toJSON: {
+      virtuals: true,
     }
-  }
-)
+});
+
+export default mongoose.model('User', userSchema, "users");
